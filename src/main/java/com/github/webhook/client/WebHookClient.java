@@ -74,6 +74,7 @@ public class WebHookClient {
                 .contentType(request.getContentType())
                 .userAgent(request.getHeader(USER_AGENT))
                 .signature(request.getHeader(GlobalCts.HEADER_NAME_SIGN))
+                .signature256(request.getHeader(GlobalCts.HEADER_NAME_SIGN_256))
         ;
         return rawParamBuilder.build();
     }

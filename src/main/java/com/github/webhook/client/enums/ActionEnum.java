@@ -1,7 +1,7 @@
 package com.github.webhook.client.enums;
 
 public enum ActionEnum {
-
+    ping,
     /**
      * push
      */
