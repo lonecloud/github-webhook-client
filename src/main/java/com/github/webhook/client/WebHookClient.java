@@ -3,6 +3,8 @@ package com.github.webhook.client;
 import com.github.webhook.client.cts.GlobalCts;
 import com.github.webhook.client.enums.ActionEnum;
 import com.github.webhook.client.handler.WebHookHandlerChain;
+import com.github.webhook.client.handler.WebhookHandler;
+import com.github.webhook.client.handler.def.CheckHeaderHandler;
 import com.github.webhook.client.handler.def.DefaultWebHootHandlerChain;
 import com.github.webhook.client.param.WebhookParam;
 import org.apache.commons.codec.digest.HmacAlgorithms;
@@ -38,8 +40,19 @@ public class WebHookClient {
 
     public WebHookClient(WebHookClientConfig clientConfig) {
         this.clientConfig = clientConfig;
-        this.webHookHandlerChain = new DefaultWebHootHandlerChain();
+        this.webHookHandlerChain = new DefaultWebHootHandlerChain(new WebhookHandler[]{new CheckHeaderHandler()});
     }
+
+    public WebHookClient(WebHookClientConfig clientConfig, WebHookHandlerChain webHookHandlerChain) {
+        this.clientConfig = clientConfig;
+        this.webHookHandlerChain = webHookHandlerChain;
+    }
+
+    public WebHookClient(WebHookClientConfig clientConfig, WebhookHandler[] webHookHandlers) {
+        this.clientConfig = clientConfig;
+        this.webHookHandlerChain = new DefaultWebHootHandlerChain(webHookHandlers);
+    }
+
 
     public void webhook(HttpServletRequest request) throws IOException {
         ByteArrayOutputStream bis = new ByteArrayOutputStream();

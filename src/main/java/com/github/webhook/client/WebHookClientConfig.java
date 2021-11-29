@@ -1,5 +1,6 @@
 package com.github.webhook.client;
 
+import com.github.webhook.client.handler.WebhookHandler;
 import lombok.Builder;
 import lombok.Data;
 
@@ -27,4 +28,5 @@ public class WebHookClientConfig {
      * 密钥
      */
     private String secretKey;
+
 }
