@@ -9,6 +9,10 @@ import com.github.webhook.client.param.WebhookParam;
  * @author lonecloud
  */
 public interface WebhookHandler {
-
+    /**
+     * webhook处理器
+     * @param param 入参
+     * @param chain 调用链
+     */
     void handler(WebhookParam param,WebHookHandlerChain chain);
 }

@@ -10,6 +10,9 @@ import com.github.webhook.client.param.WebhookParam;
  * @date 2021/11/29 21:59
  */
 public interface WebHookHandlerChain {
-
+    /**
+     * 处理Handler
+     * @param param
+     */
     void doHandler(WebhookParam param);
 }

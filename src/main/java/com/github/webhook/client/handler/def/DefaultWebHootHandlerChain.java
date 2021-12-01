@@ -14,17 +14,16 @@ public class DefaultWebHootHandlerChain implements WebHookHandlerChain {
 
     private int index = 0;
 
+    private final WebhookHandler[] handlers;
 
-    private final WebhookHandler[] webhookHandler;
-
-    public DefaultWebHootHandlerChain(WebhookHandler[] webhookHandler) {
-        this.webhookHandler = webhookHandler;
+    public DefaultWebHootHandlerChain(WebhookHandler[] handlers) {
+        this.handlers = handlers;
     }
 
     @Override
     public void doHandler(WebhookParam param) {
-        if (index < webhookHandler.length) {
-            webhookHandler[index++].handler(param, this);
+        if (index < handlers.length) {
+            handlers[index++].handler(param, this);
         }
     }
 
