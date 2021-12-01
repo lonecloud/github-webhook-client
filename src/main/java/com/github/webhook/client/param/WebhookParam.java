@@ -17,10 +17,10 @@ public class WebhookParam {
 
     private WebHookClientConfig webHookClientConfig;
 
-    /**
-     * 数据
-     */
+    private WebHookBodyParam webHookBodyParam;
+
     private String data;
+
 
     @Builder
     @Data

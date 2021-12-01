@@ -1,24 +1,19 @@
 package com.github.webhook.client;
 
+import com.alibaba.fastjson.JSON;
 import com.github.webhook.client.cts.GlobalCts;
 import com.github.webhook.client.enums.ActionEnum;
-import com.github.webhook.client.handler.WebHookHandlerChain;
-import com.github.webhook.client.handler.WebhookHandler;
+import com.github.webhook.client.handler.CheckParamHandler;
+import com.github.webhook.client.handler.WebHookHandler;
 import com.github.webhook.client.handler.def.CheckHeaderHandler;
-import com.github.webhook.client.handler.def.DefaultWebHootHandlerChain;
+import com.github.webhook.client.param.WebHookBodyParam;
 import com.github.webhook.client.param.WebhookParam;
-import org.apache.commons.codec.digest.HmacAlgorithms;
-import org.apache.commons.codec.digest.HmacUtils;
 import org.apache.commons.io.IOUtils;
-import org.apache.commons.lang3.StringUtils;
 
-import javax.servlet.ServletInputStream;
 import javax.servlet.http.HttpServletRequest;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
-import java.security.MessageDigest;
-import java.util.Optional;
 
 import static com.github.webhook.client.cts.GlobalCts.USER_AGENT;
 
@@ -32,34 +27,30 @@ public class WebHookClient {
 
     private final WebHookClientConfig clientConfig;
 
-    private final WebHookHandlerChain webHookHandlerChain;
+    private final WebHookHandlerManager webHookHandlerManager;
 
-    public WebHookClient() {
-        this(WebHookClientConfig.builder().checkSign(false).build());
-    }
+    private final CheckParamHandler checkParamHandler;
 
-    public WebHookClient(WebHookClientConfig clientConfig) {
+
+    public WebHookClient(WebHookClientConfig clientConfig, WebHookHandlerManager webHookHandlerManager) {
         this.clientConfig = clientConfig;
-        this.webHookHandlerChain = new DefaultWebHootHandlerChain(new WebhookHandler[]{new CheckHeaderHandler()});
+        this.webHookHandlerManager = webHookHandlerManager;
+        this.checkParamHandler = new CheckHeaderHandler();
     }
 
-    public WebHookClient(WebHookClientConfig clientConfig, WebHookHandlerChain webHookHandlerChain) {
+    public WebHookClient(WebHookClientConfig clientConfig, WebHookHandler[] webHookHandlers, CheckParamHandler checkParamHandler) {
         this.clientConfig = clientConfig;
-        this.webHookHandlerChain = webHookHandlerChain;
-    }
-
-    public WebHookClient(WebHookClientConfig clientConfig, WebhookHandler[] webHookHandlers) {
-        this.clientConfig = clientConfig;
-        this.webHookHandlerChain = new DefaultWebHootHandlerChain(webHookHandlers);
+        this.webHookHandlerManager = new WebHookHandlerManager(webHookHandlers);
+        this.checkParamHandler = checkParamHandler;
     }
 
 
-    public void webhook(HttpServletRequest request) throws IOException {
+    public void hook(HttpServletRequest request) throws IOException {
         ByteArrayOutputStream bis = new ByteArrayOutputStream();
         IOUtils.copy(request.getInputStream(), bis);
         WebhookParam.WebHookHeaderParam webHookHeaderParam = buildHeaderParam(request);
-        webHookHandlerChain.doHandler(WebhookParam.builder()
-                .data(bis.toString(StandardCharsets.UTF_8.name()))
+        webHookHandlerManager.doHandler(WebhookParam.builder()
+                .webHookBodyParam(JSON.parseObject(bis.toString(StandardCharsets.UTF_8.name()), WebHookBodyParam.class))
                 .webHookClientConfig(clientConfig)
                 .webHookHeaderParam(webHookHeaderParam).build());
     }

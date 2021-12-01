@@ -1,11 +1,10 @@
 package com.github.webhook.client.handler.def;
 
 import com.github.webhook.client.WebHookAction;
-import com.github.webhook.client.expection.GithubWebHookException;
 import com.github.webhook.client.WebHookClientConfig;
 import com.github.webhook.client.cts.GlobalCts;
-import com.github.webhook.client.handler.WebHookHandlerChain;
-import com.github.webhook.client.handler.WebhookHandler;
+import com.github.webhook.client.expection.GithubWebHookException;
+import com.github.webhook.client.handler.CheckParamHandler;
 import com.github.webhook.client.param.WebhookParam;
 import org.apache.commons.codec.digest.HmacAlgorithms;
 import org.apache.commons.codec.digest.HmacUtils;
@@ -20,13 +19,7 @@ import java.security.MessageDigest;
  * @date 2021/11/29 23:09
  */
 @WebHookAction
-public class CheckHeaderHandler implements WebhookHandler {
-
-    @Override
-    public void handler(WebhookParam param, WebHookHandlerChain chain) {
-        checkHeader(param);
-        chain.doHandler(param);
-    }
+public class CheckHeaderHandler implements CheckParamHandler {
 
     /**
      * 检查Header是否正常
@@ -57,5 +50,11 @@ public class CheckHeaderHandler implements WebhookHandler {
                 throw new GithubWebHookException("Invalid signature.");
             }
         }
+    }
+
+    @Override
+    public boolean check(WebhookParam param) {
+        checkHeader(param);
+        return true;
     }
 }

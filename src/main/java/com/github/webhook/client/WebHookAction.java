@@ -14,6 +14,9 @@ import java.lang.annotation.*;
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 public @interface WebHookAction {
-
+    /**
+     * 默认执行器处理
+     * @return
+     */
     ActionEnum value() default ActionEnum.defaultAction;
 }
