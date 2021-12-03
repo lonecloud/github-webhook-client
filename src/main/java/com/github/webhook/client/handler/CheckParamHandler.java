@@ -1,6 +1,6 @@
 package com.github.webhook.client.handler;
 
-import com.github.webhook.client.param.WebhookParam;
+import com.github.webhook.client.param.WebHookParam;
 
 /**
  * TODO
@@ -11,6 +11,6 @@ import com.github.webhook.client.param.WebhookParam;
  */
 public interface CheckParamHandler {
 
-    boolean check(WebhookParam param);
+    boolean check(WebHookParam param);
 
 }

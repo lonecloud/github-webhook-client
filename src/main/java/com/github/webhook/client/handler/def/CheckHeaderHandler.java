@@ -5,7 +5,7 @@ import com.github.webhook.client.WebHookClientConfig;
 import com.github.webhook.client.cts.GlobalCts;
 import com.github.webhook.client.expection.GithubWebHookException;
 import com.github.webhook.client.handler.CheckParamHandler;
-import com.github.webhook.client.param.WebhookParam;
+import com.github.webhook.client.param.WebHookParam;
 import org.apache.commons.codec.digest.HmacAlgorithms;
 import org.apache.commons.codec.digest.HmacUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -26,9 +26,9 @@ public class CheckHeaderHandler implements CheckParamHandler {
      *
      * @param param
      */
-    private void checkHeader(WebhookParam param) {
+    private void checkHeader(WebHookParam param) {
         WebHookClientConfig clientConfig = param.getWebHookClientConfig();
-        WebhookParam.WebHookHeaderParam webHookHeaderParam = param.getWebHookHeaderParam();
+        WebHookParam.WebHookHeaderParam webHookHeaderParam = param.getWebHookHeaderParam();
         if (!StringUtils.startsWith(webHookHeaderParam.getUserAgent(), GlobalCts.HEADER_NAME_GITHUB_PREFIX)) {
             throw new GithubWebHookException("this userAgent not Accept");
         }
@@ -53,7 +53,7 @@ public class CheckHeaderHandler implements CheckParamHandler {
     }
 
     @Override
-    public boolean check(WebhookParam param) {
+    public boolean check(WebHookParam param) {
         checkHeader(param);
         return true;
     }

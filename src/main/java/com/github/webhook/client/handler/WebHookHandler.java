@@ -1,7 +1,7 @@
 package com.github.webhook.client.handler;
 
 
-import com.github.webhook.client.param.WebhookParam;
+import com.github.webhook.client.param.WebHookParam;
 
 /**
  * webHookHandler处理器
@@ -13,5 +13,5 @@ public interface WebHookHandler {
      * webhook处理器
      * @param param 入参
      */
-    void handler(WebhookParam param);
+    void handler(WebHookParam param);
 }

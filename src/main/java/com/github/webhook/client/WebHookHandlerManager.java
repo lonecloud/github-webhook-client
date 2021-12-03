@@ -2,7 +2,7 @@ package com.github.webhook.client;
 
 import com.github.webhook.client.enums.ActionEnum;
 import com.github.webhook.client.handler.WebHookHandler;
-import com.github.webhook.client.param.WebhookParam;
+import com.github.webhook.client.param.WebHookParam;
 
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -37,8 +37,8 @@ public class WebHookHandlerManager {
         }
     }
 
-    public void doHandler(WebhookParam webhookParam) {
-        WebhookParam.WebHookHeaderParam webHookHeaderParam = webhookParam.getWebHookHeaderParam();
+    public void doHandler(WebHookParam webhookParam) {
+        WebHookParam.WebHookHeaderParam webHookHeaderParam = webhookParam.getWebHookHeaderParam();
         List<WebHookHandler> webHookHandlers = handlerMap.get(webHookHeaderParam.getAction());
         for (WebHookHandler webhookHandler : webHookHandlers) {
             webhookHandler.handler(webhookParam);

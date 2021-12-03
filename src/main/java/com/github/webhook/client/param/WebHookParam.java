@@ -7,7 +7,7 @@ import lombok.Data;
 
 @Data
 @Builder
-public class WebhookParam {
+public class WebHookParam {
 
 
     /**

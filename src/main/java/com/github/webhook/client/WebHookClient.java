@@ -7,7 +7,7 @@ import com.github.webhook.client.handler.CheckParamHandler;
 import com.github.webhook.client.handler.WebHookHandler;
 import com.github.webhook.client.handler.def.CheckHeaderHandler;
 import com.github.webhook.client.param.WebHookBodyParam;
-import com.github.webhook.client.param.WebhookParam;
+import com.github.webhook.client.param.WebHookParam;
 import org.apache.commons.io.IOUtils;
 
 import javax.servlet.http.HttpServletRequest;
@@ -48,15 +48,15 @@ public class WebHookClient {
     public void hook(HttpServletRequest request) throws IOException {
         ByteArrayOutputStream bis = new ByteArrayOutputStream();
         IOUtils.copy(request.getInputStream(), bis);
-        WebhookParam.WebHookHeaderParam webHookHeaderParam = buildHeaderParam(request);
-        webHookHandlerManager.doHandler(WebhookParam.builder()
+        WebHookParam.WebHookHeaderParam webHookHeaderParam = buildHeaderParam(request);
+        webHookHandlerManager.doHandler(WebHookParam.builder()
                 .webHookBodyParam(JSON.parseObject(bis.toString(StandardCharsets.UTF_8.name()), WebHookBodyParam.class))
                 .webHookClientConfig(clientConfig)
                 .webHookHeaderParam(webHookHeaderParam).build());
     }
 
-    private WebhookParam.WebHookHeaderParam buildHeaderParam(HttpServletRequest request) {
-        WebhookParam.WebHookHeaderParam.WebHookHeaderParamBuilder rawParamBuilder = WebhookParam.WebHookHeaderParam.builder();
+    private WebHookParam.WebHookHeaderParam buildHeaderParam(HttpServletRequest request) {
+        WebHookParam.WebHookHeaderParam.WebHookHeaderParamBuilder rawParamBuilder = WebHookParam.WebHookHeaderParam.builder();
         rawParamBuilder.appVersion(request.getHeader(GlobalCts.HEADER_NAME_GITHUB_VERSION))
                 .hookId(request.getHeader(GlobalCts.HEADER_NAME_HOOK_ID))
                 .targetId(request.getHeader(GlobalCts.HEADER_NAME_TARGET_ID))
