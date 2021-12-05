@@ -17,6 +17,8 @@ package com.github.webhook.client.param;
 
 import lombok.Data;
 
+import java.util.List;
+
 /**
  * TODO
  *
@@ -41,4 +43,75 @@ public class WebHookBodyParam {
      * 发送人
      */
     private String sender;
+
+    /************push*****************/
+
+    private String ref;
+
+    private String before;
+
+    private String after;
+    /**
+     * 推送状态
+     */
+    private boolean created;
+    private boolean deleted;
+    private boolean forced;
+    /**
+     * 提交信息
+     */
+    private String[] added;
+    private String[] removed;
+    private String[] modified;
+
+    /**
+     * 提交明细
+     */
+    private HeadCommitParam headCommit;
+    /**
+     * 提交人
+     */
+    private UserParam pusher;
+
+
+    private String baseRef;
+
+    private String compare;
+
+    @Data
+    public static class HeadCommitParam {
+        private String id;
+
+        private String treeId;
+
+        private boolean distinct;
+
+        private String message;
+
+        private String timestamp;
+
+        private String url;
+
+        private UserParam author;
+
+        private UserParam committer;
+
+        private List<String> added;
+
+        private List<String> removed;
+
+        private List<String> modified;
+    }
+
+
+    @Data
+    public static class UserParam {
+
+        private String name;
+
+        private String email;
+
+        private String username;
+    }
+
 }
